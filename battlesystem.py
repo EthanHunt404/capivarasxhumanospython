@@ -24,22 +24,37 @@ def SelTitle():
     
     
 
-def StartBattle():
+def StartBattle(GameOn : bool):
     
-    Enemy = SelTitle()
+    GameOn = True
     
-    BattleScreen = f"""
-    -------------------------------------------------------------------
-                            {Enemy}
-        {capybara['HP']}/Health             {capybara['ATK']}/Attack                {capybara['DEF']}/Defense
-    -------------------------------------------------------------------
-    {AsciiImgs.capybaraImg}
-    -------------------------------------------------------------------
-                                 Player
-        {player['HP']}/Health               {player['ATK']}/Attack                  {player['DEF']}/Defense
-    -------------------------------------------------------------------
-    """
+    while GameOn:
+        Enemy = SelTitle()
+        
+        
+        BattleScreen = f"""
+        -------------------------------------------------------------------
+                                {Enemy}
+            {capybara['HP']}/Health             {capybara['ATK']}/Attack                {capybara['DEF']}/Defense
+        -------------------------------------------------------------------
+        {AsciiImgs.capybaraImg}
+        -------------------------------------------------------------------
+                                    Player
+            {player['HP']}/Health               {player['ATK']}/Attack                  {player['DEF']}/Defense
+        -------------------------------------------------------------------
+        
+        """
+        while True:
+            Selection = input("""A foe has appeared, what do you do
+                > 1: Attack (a simple attack)
+                > 2: Defend (diminish damage equal to your Defense attribute)
+                > 3: Flee (1/10 change o skipping this fight, but you dont level up)
+            """)
+            
+            if Selection.upper() != 1 or "ATTACK" or "DEFEND" or "FLEE":
+                print(f"''{Selection}'' is not a valid option choose a valid option\n")
+            else:
+                break
+            
     
-    AsciiImgs.printUTF8(BattleScreen)
-    
-StartBattle()
+StartBattle(True)
