@@ -33,28 +33,34 @@ def StartBattle(GameOn : bool):
         
         
         BattleScreen = f"""
-        -------------------------------------------------------------------
-                                {Enemy}
-            {capybara['HP']}/Health             {capybara['ATK']}/Attack                {capybara['DEF']}/Defense
-        -------------------------------------------------------------------
-        {AsciiImgs.capybaraImg}
-        -------------------------------------------------------------------
-                                    Player
-            {player['HP']}/Health               {player['ATK']}/Attack                  {player['DEF']}/Defense
-        -------------------------------------------------------------------
+-------------------------------------------------------------------
+                        {Enemy}
+    {capybara['HP']}/Health             {capybara['ATK']}/Attack                {capybara['DEF']}/Defense
+-------------------------------------------------------------------
+{AsciiImgs.capybaraImg}
+-------------------------------------------------------------------
+                            Player
+    {player['HP']}/Health               {player['ATK']}/Attack                  {player['DEF']}/Defense
+-------------------------------------------------------------------"""
+
+        AsciiImgs.printUTF8(BattleScreen)
         
-        """
         while True:
-            Selection = input("""A foe has appeared, what do you do
-                > 1: Attack (a simple attack)
-                > 2: Defend (diminish damage equal to your Defense attribute)
-                > 3: Flee (1/10 change o skipping this fight, but you dont level up)
-            """)
+            Selection = input("""
+A foe has appeared, what do you do
+> 1: Attack (a simple attack)
+> 2: Defend (diminish damage equal to your Defense attribute)
+> 3: Flee (1/10 change o skipping this fight, but you dont level up)\n""")
             
-            if Selection.upper() != 1 or "ATTACK" or "DEFEND" or "FLEE":
-                print(f"''{Selection}'' is not a valid option choose a valid option\n")
-            else:
+            Selection = Selection.upper()
+            
+            if Selection in ("1", "ATTACK", "2", "DEFEND", "3", "FLEE"):
                 break
-            
+            elif Selection in ("CLOSE","BREAK", "EXIT"):
+                print("Goodbye.\n")
+                GameOn = False
+                break
+            else:
+                print(f"[{Selection}] is not a valid option choose a valid option")
     
 StartBattle(True)
