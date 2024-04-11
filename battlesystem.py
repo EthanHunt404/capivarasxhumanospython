@@ -36,7 +36,7 @@ def Flee():
     else:
         return False
 
-def StartBattle(GameOn : bool):
+def StartBattle(BattleOn : bool):
     
     capybaratitle = SelTitle()
     
@@ -47,7 +47,7 @@ def StartBattle(GameOn : bool):
     player = {'HP' : 30, 'ATK' : 3, 'DEF' : 0}
     playerDefending = False
     
-    while GameOn:
+    while BattleOn:
 
         BattleScreen(capybara, capybaramax, player, playermax, capybaratitle)
         
@@ -76,5 +76,7 @@ def StartBattle(GameOn : bool):
                 break
             else:
                 continue
+            
+        
 
 StartBattle(True)
