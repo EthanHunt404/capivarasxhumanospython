@@ -35,22 +35,23 @@ def Flee():
         return True
     else:
         return False
-
-def StartBattle(GameOn : bool):
+# Main Function
+def StartBattle(BattleOn : bool):
     
     capybaratitle = SelTitle()
     
     capybaramax = {'MAX_HP' : 30, 'MAX_ATK' : 30, 'MAX_DEF' : 30}
     capybara = {'HP' : 30, 'ATK' : 3, 'DEF' : 0}
+    capybaraDefending = False
 
     playermax = {'MAX_HP' : 30, 'MAX_ATK' : 30, 'MAX_DEF' : 30}
     player = {'HP' : 30, 'ATK' : 3, 'DEF' : 0}
     playerDefending = False
-    
-    while GameOn:
-
+# main loop
+    while BattleOn:
+# print screen
         BattleScreen(capybara, capybaramax, player, playermax, capybaratitle)
-        
+# selection process
         while True:
             Selection = input("A foe has appeared, what do you do\n> 1: Attack (a simple attack)\n> 2: Defend (diminish damage equal to your Defense attribute)\n> 3: Flee (1/10 change o skipping this fight, but you dont level up)\n")
             
@@ -64,17 +65,38 @@ def StartBattle(GameOn : bool):
                 break
             else:
                 print(f"\n[{Selection}] is not a valid option choose a valid option\n")
-    
-        if Selection in ("1", "ATTACK"):
-            capybara['HP'] = capybara['HP'] - player['ATK']
-        elif Selection in ("2", "DEFEND"):
-            playerDefending = True
-        elif Selection in ("3", "FLEE"):
-            roll = Flee()
-            if roll == True:
-                GameOn = False
-                break
+# player logic
+        match Selection:
+            case "1" | "ATTACK":
+                if capybaraDefending == True:
+                    capybara['HP'] -= player['ATK'] - capybara['DEF']
+                else:
+                    capybara['HP'] -= player['ATK']
+                playerDefending = False
+            case "2" | "DEFEND":
+                playerDefending = True
+            case "3" | "FLEE":
+                roll = Flee()
+                if roll == True:
+                    GameOn = False
+                    break
+                else:
+                    continue
+# enemy logic
+        enemyai = random.randint(0, 100)
+        
+        if capybara['HP'] <= 0:
+            BattleOn == False
+            break
+        elif enemyai > 30:
+            if playerDefending == True:
+                player['HP'] -= capybara['ATK'] - player['DEF']
             else:
-                continue
+                player['HP'] -= capybara['ATK']
+            capybaraDefending = False
+        else:
+            capybaraDefending = True
+            
+        
 
 StartBattle(True)
