@@ -35,7 +35,7 @@ def Flee():
         return True
     else:
         return False
-
+# Main Function
 def StartBattle(BattleOn : bool):
     
     capybaratitle = SelTitle()
@@ -47,7 +47,7 @@ def StartBattle(BattleOn : bool):
     playermax = {'MAX_HP' : 30, 'MAX_ATK' : 30, 'MAX_DEF' : 30}
     player = {'HP' : 30, 'ATK' : 3, 'DEF' : 0}
     playerDefending = False
-    
+# main loop
     while BattleOn:
 # print screen
         BattleScreen(capybara, capybaramax, player, playermax, capybaratitle)
