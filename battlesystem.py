@@ -1,4 +1,5 @@
 import random
+from time import sleep
 import AsciiImgs
 
 #basic stats
@@ -31,8 +32,8 @@ def BattleScreen(capybara : dict, capybaramax : dict, player : dict, playermax :
 -------------------------------------------------------------------
                             Player
     {player['HP']}/{playermax['MAX_HP']} Health               {player['ATK']}/{playermax['MAX_ATK']} Attack                  {playermax['DEF']} Defense
-----------------------------------------------1---------------------"""
-    return print(GUI)
+-------------------------------------------------------------------"""
+    return AsciiImgs.printUTF8(GUI)
 
 def Flee():
     
@@ -54,10 +55,12 @@ def Restart(Gameover : bool):
                 #placeholder for stat reset
                 capybara['HP'], capybaramax['MAX_ATK'] = capybaramax['MAX_HP'], capybaramax['MAX_ATK']
                 player['HP'], player['ATK'] = playermax['MAX_HP'], playermax['MAX_ATK']
+                sleep(1)
                 break
             elif Restart == 'NO':
                 print('\nThank you for playing. Goodbye!\n')
                 GameOn = False
+                sleep(1)
                 break
             else:
                 print(f"\n{Restart} is not a valid option, try again\n")
@@ -65,19 +68,21 @@ def Restart(Gameover : bool):
         while Restart != 'YES' or Restart != 'NO':
             Restart = input('\nDo you wish to end your run now? Yes|No\n')
             Restart = Restart.upper()
-            if Restart == 'YES':
+            if Restart == 'NO':
                 print('\nTo the next battle then!\n')
                 #placeholder for level up
                 capybara['HP'], capybaramax['MAX_ATK'] = capybaramax['MAX_HP'], capybaramax['MAX_ATK']
                 player['HP'], player['ATK'] = playermax['MAX_HP'], playermax['MAX_ATK']
+                sleep(1)
                 break
-            elif Restart == 'NO':
+            elif Restart == 'YES':
                 print('\nThank you for playing. Goodbye!\n')
                 GameOn = False
+                sleep(1)
                 break
             else:
                 print(f"\n{Restart} is not a valid option, try again\n")
-# Main Function
+# main Function
 def StartBattle(BattleOn : bool):
     capybaratitle = SelTitle()
     capybaraDefending = False
@@ -85,10 +90,11 @@ def StartBattle(BattleOn : bool):
 # main loop
     while BattleOn:
 # print screen
+        sleep(0.5)
         BattleScreen(capybara, capybaramax, player, playermax, capybaratitle)
 # selection process
         while True:
-            Choice = input("A foe has appeared, what do you do\n> 1: Attack (a simple attack)\n> 2: Defend (diminish damage equal to your Defense attribute)\n> 3: Flee (1/10 change o skipping this fight, but you dont level up)\n")
+            Choice = input("\nA foe has appeared, what do you do\n> 1: Attack (a simple attack)\n> 2: Defend (diminish damage equal to your Defense attribute)\n> 3: Flee (1/10 change o skipping this fight, but you dont level up)\n")
             
             Choice = Choice.upper()
             
@@ -104,7 +110,7 @@ def StartBattle(BattleOn : bool):
         match Choice:
             case "1" | "ATTACK":
                 if capybaraDefending == True:
-                    capybara['HP'] -= player['ATK'] - capybara['DEF']
+                    capybara['HP'] -= (player['ATK'] - capybaramax['DEF'])
                 else:
                     capybara['HP'] -= player['ATK']
                 playerDefending = False
@@ -123,7 +129,7 @@ def StartBattle(BattleOn : bool):
             Restart(False)
         elif enemyai < 70:
             if playerDefending == True:
-                player['HP'] -= capybara['ATK'] - player['DEF']
+                player['HP'] -= (capybara['ATK'] - playermax['DEF'])
             else:
                 player['HP'] -= capybara['ATK']
             capybaraDefending = False
