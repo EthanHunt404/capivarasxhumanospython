@@ -6,15 +6,14 @@ from time import sleep
 
 red = '\033[91m'
 setar_cor = '\033[97m'
-esc = 0
+selection = 0
 
 def clear():
     os.system('cls')
 
-def menu():
+def MainMenu():
 
     clear()
-    esc = 0
     print(red)
     AsciiImgs.printUTF8(AsciiImgs.menuImg)
     print(setar_cor)
@@ -22,37 +21,38 @@ def menu():
     print('\n' * 1)
     print(' '*15, red, '-(> INICIAR', setar_cor)
     print(' '*15, 'SAIR')
+    selection = 0
 
     while True:
-
         if msvcrt.kbhit():
-
             tecla = msvcrt.getch()
             if tecla == b'A' or tecla == b'a':
                 clear()
-                esc = 0
+                selection = 0
                 print(red)
                 AsciiImgs.printUTF8(AsciiImgs.menuImg)
                 print(setar_cor)
                 print('Use the keys A and D to navigate','\n','Press ENTER to select\n')
                 print(' '*4, red, '-(> INICIAR', setar_cor)
                 print(' '*4, 'SAIR')
- 
-            if tecla == b'd' or tecla == b'D':
+            elif tecla == b'd' or tecla == b'D':
                 clear()
-                esc = 1
+                selection = 1
                 print(red)
                 AsciiImgs.printUTF8(AsciiImgs.menuImg)
                 print(setar_cor)
                 print('Use the keys A and D to navigate','\n','Press ENTER to select\n')
                 print(' '*4, 'INICIAR')
                 print(' '*4, red,'-(> SAIR', setar_cor)
-            
-            if tecla == b'\r' and esc == 0:
+                
+            if tecla == b'\r' and selection == 0:
                 print('Starting the game')
                 sleep(1)
                 battlesystem.StartBattle()
                 break
-            elif tecla == b'\r' and esc == 1:
+            elif tecla == b'\r' and selection == 1:
                 print('Closing terminal')
-menu()
+                break
+
+battlesystem.BattleOn = True
+MainMenu()
