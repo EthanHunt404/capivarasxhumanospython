@@ -1,13 +1,12 @@
 import random
 import AsciiImgs
 
-capybaramax = {'MAX_HP' : 30, 'MAX_ATK' : 3}
-capybara = {'HP' : 30, 'ATK' : 3, 'DEF' : 0}
+#basic stats
+capybaramax = {'MAX_HP' : 30, 'MAX_ATK' : 3, 'DEF' : 0}
+capybara = {'HP' : 30, 'ATK' : 3}
     
-playermax = {'MAX_HP' : 30, 'MAX_ATK' : 3}
-player = {'HP' : 30, 'ATK' : 3, 'DEF' : 0}
-
-
+playermax = {'MAX_HP' : 30, 'MAX_ATK' : 3, 'DEF' : 0}
+player = {'HP' : 30, 'ATK' : 3}
 
 def SelTitle():
     adjectiveList = ('Fat', 'Unyielding', 'Smiling', 'Classy', 'Discreet', 'Amused', 'Stern', 'Exalted', 'Air Head', 
@@ -26,12 +25,12 @@ def BattleScreen(capybara : dict, capybaramax : dict, player : dict, playermax :
     GUI = f"""
 -------------------------------------------------------------------
                         {capybaratitle}
-    {capybara['HP']}/{capybaramax['MAX_HP']} Health             {capybara['ATK']}/{capybaramax['MAX_ATK']} Attack                {capybara['DEF']} Defense
+    {capybara['HP']}/{capybaramax['MAX_HP']} Health             {capybara['ATK']}/{capybaramax['MAX_ATK']} Attack                {capybaramax['DEF']} Defense
 -------------------------------------------------------------------
 {AsciiImgs.capybaraImg}
 -------------------------------------------------------------------
                             Player
-    {player['HP']}/{playermax['MAX_HP']} Health               {player['ATK']}/{playermax['MAX_ATK']} Attack                  {player['DEF']} Defense
+    {player['HP']}/{playermax['MAX_HP']} Health               {player['ATK']}/{playermax['MAX_ATK']} Attack                  {playermax['DEF']} Defense
 ----------------------------------------------1---------------------"""
     return print(GUI)
 
@@ -45,14 +44,14 @@ def Flee():
         return False
     
 def Restart(Gameover : bool):
-#FIX THIS
     Restart : str = ''
     if Gameover:
         while Restart != 'YES' or Restart != 'NO':
-            Restart = input('\nDo you wish to play again? Yes|No\n')
+            Restart = input('\nYou lost, do you wanna play again Yes|No\n')
             Restart = Restart.upper()
             if Restart == 'YES':
-                print('\nTo the next battle then!\n')
+                print('\nLets begin anew them\n')
+                #placeholder for stat reset
                 capybara['HP'], capybaramax['MAX_ATK'] = capybaramax['MAX_HP'], capybaramax['MAX_ATK']
                 player['HP'], player['ATK'] = playermax['MAX_HP'], playermax['MAX_ATK']
                 break
@@ -61,13 +60,14 @@ def Restart(Gameover : bool):
                 GameOn = False
                 break
             else:
-                print(f"\n{Finish} is not a valid option, try again\n")
+                print(f"\n{Restart} is not a valid option, try again\n")
     else:
         while Restart != 'YES' or Restart != 'NO':
             Restart = input('\nDo you wish to end your run now? Yes|No\n')
             Restart = Restart.upper()
             if Restart == 'YES':
                 print('\nTo the next battle then!\n')
+                #placeholder for level up
                 capybara['HP'], capybaramax['MAX_ATK'] = capybaramax['MAX_HP'], capybaramax['MAX_ATK']
                 player['HP'], player['ATK'] = playermax['MAX_HP'], playermax['MAX_ATK']
                 break
@@ -76,7 +76,7 @@ def Restart(Gameover : bool):
                 GameOn = False
                 break
             else:
-                print(f"\n{Finish} is not a valid option, try again\n")
+                print(f"\n{Restart} is not a valid option, try again\n")
 # Main Function
 def StartBattle(BattleOn : bool):
     capybaratitle = SelTitle()
@@ -120,7 +120,7 @@ def StartBattle(BattleOn : bool):
         enemyai = random.randint(0, 100)
         if capybara['HP'] <= 0:
             print('\nCongratulations you won!\n')
-            GameOver()
+            Restart(False)
         elif enemyai < 70:
             if playerDefending == True:
                 player['HP'] -= capybara['ATK'] - player['DEF']
@@ -129,8 +129,8 @@ def StartBattle(BattleOn : bool):
             capybaraDefending = False
         else:
             capybaraDefending = True
+#death logic
         if player['HP'] < 0:
-            print('You lost, do you wanna play again')
-        
-
+            Restart(True)
+            
 StartBattle(True)
